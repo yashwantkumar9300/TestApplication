@@ -1,0 +1,46 @@
+
+{% include 'user_navbar.html' %}
+
+{% load static %}
+
+<br><br><br>
+<style>
+        .admin_info
+        {
+            font-family: "Agency FB";
+            font-size: 20px;
+            color: blue;
+            width: 350px;
+            padding-left: 20px;
+        }
+        .img-circle {
+            border-radius: 50%;
+        }
+        </style>
+    <br>
+    <table align="center" border="0" cellpadding="5">
+    <tr>
+        <th colspan="2" style="text-align: center;color: white;background-color: cornflowerblue;font-size: 20px">
+            Welcome User Profile
+        </th>
+    </tr>
+    <tr><th colspan="2"> </th></tr>
+    <tr><th rowspan="3">
+        {% if data.image.url %}
+         <img class="img-circle" src="{{ data.image.url }}" height="100" width="100"></th></tr>
+         {% else %}
+        <img class="img-circle" src="{% static 'images/user.png' %}" height="100" width="100"></th></tr>
+        {% endif %}
+    <tr><th class="admin_info"> Contact No : {{ data.mobile }}</th></tr>
+    <tr><th class="admin_info"> Email Id : {{ data.email }}</th></tr>
+    <tr>
+        <th colspan="2" style="text-align: center; padding: 10px">
+            <a href="{% url 'update_profile' %}">
+            <button type="button" class="btn btn-outline-success"> Update Profile </button> </a>
+        </th>
+    </tr>
+    </table>
+
+<br><br><br><br><br><br>
+
+{% include "footer.html" %}

@@ -1,0 +1,150 @@
+
+  <style type="text/css">
+    body {
+      color: #aa082e;
+      background-color: #b6bde7;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    a:link {
+      text-decoration: none;
+    }
+
+    .note {
+      text-align: center;
+      height: 80px;
+      background: -webkit-linear-gradient(left, #0072ff, #8811c5);
+      color: #fff;
+      font-weight: bold;
+      line-height: 80px;
+    }
+
+    .form-content {
+      padding: 5%;
+      border: 1px solid #ced4da;
+      margin-bottom: 2%;
+    }
+
+    .form-control {
+      border-radius: 1.5rem;
+    }
+
+    .btnSubmit {
+      border: none;
+      border-radius: 1.5rem;
+      padding: 1%;
+      width: 20%;
+      cursor: pointer;
+      background: #0062cc;
+      color: #fff;
+    }
+  </style>
+
+  {% include "navbar.html" %}
+  <br>
+  <br>
+  <br>
+  <br>
+
+
+  <form action="{% url 'user_registration' %}" method="post">
+    {% csrf_token %}
+    <div class="container register-form">
+      <div class="form">
+        <div class="note">
+          <p> User Registration Page </p>
+        </div>
+
+        <div class="form-content">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                  <input class="form-control" type="tel" placeholder="Mobile No" name="mobile" id="mob" required maxlength="10" pattern="[6789][0-9]{9}" onblur="ajaxrequest('mob','http://127.0.0.1:8000/checkmobile/','mob1')">
+                  <div id="mob1"> </div>
+              </div>
+              <div class="form-group">
+                <input class="form-control" type="email" placeholder="Email-Id" name="email" id="email" required onblur="ajaxrequest('email','http://127.0.0.1:8000/checkemail/','email1')">
+                <div id="email1"> </div>
+              </div>
+
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <input class="form-control" type="password" placeholder="Password" name="password" id="password" required minlength="8" maxlength="16">
+              </div>
+              <div class="form-group">
+                <input class="form-control" type="password" placeholder="Confirm Password" name="confirmpassword" id="confirm_password" required minlength="8" maxlength="16">
+              </div>
+
+            </div>
+          </div>
+          <button type="submit" class="btnSubmit">Submit</button>
+          <div class="text-center">Already have an account? <a href="{% url 'user_login' %}">Login here</a></div>
+            <br>
+            {% if error %}
+              <h3 style="text-align: center;color: magenta"> {{ error }}</h3> <br>
+            {% endif %}
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  {% include "footer.html" %}
+
+   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        function validatePassword()
+        {
+            var password = document.getElementById("password"),confirm_password = document.getElementById("confirm_password");
+            if(password.value != confirm_password.value)
+            {
+                confirm_password.setCustomValidity("Invalid Confirm Password");
+            }
+            else
+            {
+                confirm_password.setCustomValidity('');
+            }
+        }
+        password.onchange = validatePassword;
+        confirm_password.onkeyup = validatePassword;
+
+
+
+    function ajaxrequest(input_id,req_url,div_id)
+    {
+    var cn = document.getElementById(input_id).value;
+    var val = 'cname='+cn;
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = check;
+    request.open("POST",req_url,true);
+    request.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+    request.send(val)
+
+    function check()
+    {
+        if(request.readyState == 4)
+        {
+            var val = request.responseText;
+            var json_data = JSON.parse(val); //converting string(text) into json type
+            var sp = document.getElementById(div_id);
+
+            if(json_data.error != undefined)
+            {
+                sp.style.color = "red";
+                sp.innerText = json_data.error;
+                document.getElementById("b1").disabled = true;
+            }
+            else
+            {
+                //sp.style.color = "green";
+                //sp.innerText = json_data.message;
+                sp.innerText = "";
+                document.getElementById("b1").disabled = false;
+            }
+        }
+    }
+}
+
+    </script>
+

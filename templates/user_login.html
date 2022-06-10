@@ -1,0 +1,88 @@
+
+
+  <style type="text/css">
+    body {
+      color: #aa082e;
+      background-color: #b6bde7;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    a:link {
+      text-decoration: none;
+    }
+
+    .note {
+      text-align: center;
+      height: 80px;
+      background: -webkit-linear-gradient(left, #0072ff, #8811c5);
+      color: #fff;
+      font-weight: bold;
+      line-height: 80px;
+    }
+
+    .form-content {
+      padding: 5%;
+      border: 1px solid #ced4da;
+      margin-bottom: 2%;
+    }
+
+    .form-control {
+      border-radius: 1.5rem;
+    }
+
+    .btnSubmit {
+      border: none;
+      border-radius: 1.5rem;
+      padding: 1%;
+      width: 20%;
+      cursor: pointer;
+      background: #0062cc;
+      color: #fff;
+    }
+  </style>
+
+  {% include "navbar.html" %}
+  <br>
+  <br>
+  <br><br>
+
+
+  <form action="{% url 'user_login_check' %}" method="post">
+    {% csrf_token %}
+    <div class="container register-form">
+      <div class="form">
+        <div class="note">
+          <p>User Login Page</p>
+        </div>
+
+        <div class="form-content">
+          <div class="row">
+            <div class="col-md-6">
+
+              <div class="form-group">
+                <input class="form-control" type="tel" placeholder="Mobile No" name="mobile" id="mob" required>
+              </div>
+
+            </div>
+            <div class="col-md-6">
+
+              <div class="form-group">
+                <input class="form-control" type="password" placeholder="Password" name="password" id="password" required>
+              </div>
+
+            </div>
+          </div>
+          <button type="submit" class="btnSubmit">Login</button>
+          <div class="text-center">Do not have account? <a href="{% url 'user_signup' %}">Signup here</a></div>
+            <br>
+            {% if error %}
+              <h3 style="text-align: center;color: magenta"> {{ error }}</h3> <br>
+            {% endif %}
+        </div>
+      </div>
+    </div>
+
+  </form>
+  <br>
+
+  {% include "footer.html" %}
